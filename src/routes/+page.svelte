@@ -19,37 +19,15 @@
 </script>
 
 <div data-scroll-container>
-  <section>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
-    <h1 class="text-5xl font-bold underline text-red-500">Hello world!</h1>
+  <section class="flex flex-col items-center justify-center h-screen" style="height: 80vh; margin-top: -20px;">
+    <!-- Red Box -->
+    <div class="relative shadow-2xl grid place-items-center justify-center -mt-10">
+      <h1 class="text-8xl font-dynapuff text-white">Cozy Creatives</h1>
+    </div>
+
+    <!-- Yellow Box -->
+    <!-- <div class="border-4 border-yellow-500 w-1/3 h-20 mt-10 flex items-center justify-center">
+      <button class="bg-blue-500 text-white px-4 py-2 rounded">Show</button>
+    </div> -->
   </section>
 </div>

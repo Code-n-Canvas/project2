@@ -1,6 +1,9 @@
-/** @type {import('tailwindcss').Config} */
+import type { Config } from "tailwindcss";
+import typography from "@tailwindcss/typography";
+
 export default {
   content: ["./src/**/*.{html,js,svelte,ts}"],
+
   theme: {
     extend: {
       fontFamily: {
@@ -9,8 +12,9 @@ export default {
         karla: ['"Karla"', 'sans-serif'],
         macondo: ['"Macondo"','sans-serif '],
         concert: ['"Concert One"', 'sans-serif'],
-      },
-    },
+      }
+    }
   },
-  plugins: [],
-};
+
+  plugins: [typography]
+} as Config;

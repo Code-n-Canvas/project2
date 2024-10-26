@@ -1,3 +1,52 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+html {
+    scroll-behavior: smooth;
+   
+    color: #d1e7ff; /* Light blueish text color */
+}
+
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+h1,
+h2,
+h3,
+.poppins {
+    font-family: 'Poppins', sans-serif;
+}
+
+.blueShadow {
+    box-shadow: 0px 14px 55px rgba(109, 40, 217, 0.45);
+}
+
+.specialSpin {
+    animation: spin 5s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.blur-load {
+    background-size: cover;
+    background-position: center;
+}
+
+.img {
+    object-position: center;
+    object-fit: cover;
+}
+
+.bg-merch {
+    background-color: #1a0a2c; /* A light peach color */
+}
