@@ -4,8 +4,8 @@
   
       // Tabs for navigation
       export let tabs = [
-          { name: "Home", link: "/project2/" },
-          { name: "Shop", link: "/project2/shop" },
+          { name: "Home", link: "/" },
+          { name: "Shop", link: "/shops" },
         //   { name: "Projects", link: "/portfolio" },
       ];
   
