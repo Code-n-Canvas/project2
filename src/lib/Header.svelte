@@ -34,7 +34,7 @@
               </a>
           {/each}
           <!-- connect with me button -->
-          <a href="/contact" class="blueShadow relative overflow-hidden px-5 py-2 group rounded-full bg-black text-white">
+          <a href="/project2/contact" class="blueShadow relative overflow-hidden px-5 py-2 group rounded-full bg-black text-white">
             <div
                class="absolute top-0 right-full w-full h-full bg-blue-400 opacity-20 group-hover:translate-x-full z-0 duration-200"
           ></div>
@@ -60,7 +60,7 @@
                           <p class="font-nunito">{tab.name}</p>
                       </a>
                   {/each}
-                  <a href="/contact" class="block px-4 py-2 text-white hover:text-blue-400 duration-200 font-afacad">
+                  <a href="/project2/contact" class="block px-4 py-2 text-white hover:text-blue-400 duration-200 font-afacad">
                       Connect with Us!
                   </a>
               </div>
