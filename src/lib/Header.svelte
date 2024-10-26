@@ -32,7 +32,7 @@
     {/each}
     <!-- connect with me button -->
     <a
-      href="/contact"
+      href="/project2/contact"
       class="blueShadow relative overflow-hidden px-5 py-2 group rounded-full bg-black text-white"
     >
       <div
@@ -63,7 +63,7 @@
           </a>
         {/each}
         <a
-          href="/contact"
+          href="/project2/contact"
           class="block px-4 py-2 text-white hover:text-blue-400 duration-200 font-afacad"
         >
           Connect with Us!
