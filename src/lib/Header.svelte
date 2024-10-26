@@ -35,17 +35,21 @@
           {/each}
           <!-- connect with me button -->
           <a href="/contact" class="blueShadow relative overflow-hidden px-5 py-2 group rounded-full bg-black text-white">
-              <div
-                  class="absolute top-0 right-full w-full h-full bg-blue-400 opacity-20 group-hover:translate-x-full z-0 duration-200"
-              />
-              <h4 class="relative z-9 font-macondo">Connect with Us!</h4>
-          </a>
+            <div
+               class="absolute top-0 right-full w-full h-full bg-blue-400 opacity-20 group-hover:translate-x-full z-0 duration-200"
+          ></div>
+          <h4 class="relative z-9 font-macondo">Connect with Us!</h4>
+        </a>
       </div>
       <!-- Dropdown button for mobile view -->
       <div class="sm:hidden relative">
-          <button on:click={() => isDropdownOpen = !isDropdownOpen} class="px-4 py-2 bg-black text-white rounded flex items-center gap-2 hover:text-blue-400 duration-200">
-              <i class="fas fa-bars"></i>
-          </button>
+        <button 
+            on:click={() => isDropdownOpen = !isDropdownOpen} 
+            class="px-4 py-2 bg-black text-white rounded flex items-center gap-2 hover:text-blue-400 duration-200"
+            aria-label="Toggle navigation menu"
+        >
+            <i class="fas fa-bars"></i>
+        </button>
           {#if isDropdownOpen}
               <div class="absolute right-0 mt-2 w-48 bg-black border border-gray-200 rounded shadow-lg transition-transform transform origin-top-right duration-200 ease-out scale-100">
                   {#each tabs as tab, index}
