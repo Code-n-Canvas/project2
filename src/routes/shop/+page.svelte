@@ -40,6 +40,16 @@ let products = [
     size: "12×9×18cm",
     material: "70% Plastic, 30% Metal"
   },
+  { 
+    id: 3, 
+    name: "Traveler", 
+    price: "$30", 
+    image: "images/p2.jpg", 
+    description: "",
+    brand: "Brand B",
+    size: "12×9×18cm",
+    material: "70% Plastic, 30% Metal"
+  },
 ];
 </script>
 
