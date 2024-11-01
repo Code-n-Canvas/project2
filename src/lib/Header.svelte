@@ -1,6 +1,9 @@
 <script>
+    import { showCart } from '../stores/cartStore'; // Import the store
+
     export let y;
     export let innerHeight;
+    export let toggleCart;
   
       // Tabs for navigation
       export let tabs = [
@@ -40,6 +43,14 @@
           ></div>
           <h4 class="relative z-9 font-macondo">Connect with Us!</h4>
         </a>
+        <!-- Add Cart Button -->
+        <button 
+            class="bg-blue-600 text-white p-2 rounded-full" 
+            aria-label="View Cart" 
+            on:click={() => showCart.set(true)}
+        >
+            <i class="fa-solid fa-cart-shopping"></i>
+        </button>
       </div>
       <!-- Dropdown button for mobile view -->
       <div class="sm:hidden relative">
