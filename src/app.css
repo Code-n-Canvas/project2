@@ -4,8 +4,11 @@
 
 html {
     scroll-behavior: smooth;
-   
-    color: #d1e7ff; /* Light blueish text color */
+    color: #ffffff; /* Change to white for better visibility */
+}
+
+body {
+    background-color: #1a1a1a; /* Ensure a dark background for contrast */
 }
 
 * {

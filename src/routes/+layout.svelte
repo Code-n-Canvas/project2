@@ -11,6 +11,11 @@
   function goTop() {
       document.body.scrollIntoView();
   }
+
+  // Define toggleCart function or variable
+  let toggleCart = () => {
+      // Your toggleCart logic here
+  };
 </script>
 
 <div class="container relative flex flex-col max-w-[1400px] mx-auto w-full text-sm sm:text-base min-h-screen z-[2]">
@@ -25,7 +30,7 @@
         </button>
     </div>
     <!-- Header component -->
-    <Header {y} {innerHeight} />
+    <Header {y} {innerHeight} {toggleCart} />
     <!-- Slot for additional content -->
     <slot />
 </div>
