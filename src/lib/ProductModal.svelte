@@ -1,14 +1,25 @@
 <script lang="ts">
     import type { Product } from '$lib/types';
+    import { validateForm } from '$lib/formValidator';
 
     export let selectedProduct: Product;
-    export let addToCart: (productId: number, quantity: number) => void;
     export let closeModal: () => void;
     let quantity = 1;
+    let name = '';
+    let email = '';
+    let phoneNumber = '';
+    let address = '';
+    let additionalInfo = '';
+    let formErrors: { name?: string; email?: string; phoneNumber?: string; address?: string } = {};
 
     function handleAddToCart() {
-        addToCart(selectedProduct.id, quantity);
-        closeModal();
+        formErrors = validateForm(name, email, phoneNumber, address);
+        if (Object.keys(formErrors).length === 0) {
+            console.log({ name, email, phoneNumber, address, selectedProduct, quantity, additionalInfo });
+            closeModal();
+        } else {
+            console.error("Form validation failed", formErrors);
+        }
     }
 
     function updateQuantity(change: number) {
@@ -31,10 +42,33 @@
                        class="w-16 text-center mx-3 border-2 border-gray-400 rounded-lg text-xl font-bold text-black" />
                 <button on:click={() => updateQuantity(1)} class="px-3 py-2 bg-gray-400 text-white rounded-lg text-lg">+</button>
             </div>
-            <button on:click={handleAddToCart} class="bg-blue-600 text-white px-4 py-2 rounded-full mb-4">Add to Cart</button>
-            <p class="text-gray-700 mb-2">Brand: {selectedProduct.brand}</p>
-            <p class="text-gray-700 mb-2">Size: {selectedProduct.size}</p>
-            <p class="text-gray-700 mb-2">Material: {selectedProduct.material}</p>
+            <form on:submit|preventDefault={handleAddToCart}>
+                <div class="mt-4">
+                    <label for="name" class="font-macondo text-black">Name:</label>
+                    <input type="text" id="name" bind:value={name} required class="w-full p-2 border rounded text-black" />
+                    {#if formErrors.name}<p class="text-red-500">{formErrors.name}</p>{/if}
+                </div>
+                <div class="mt-4">
+                    <label for="email" class="font-macondo text-black">E-mail:</label>
+                    <input type="email" id="email" bind:value={email} required class="w-full p-2 border rounded text-black" />
+                    {#if formErrors.email}<p class="text-red-500">{formErrors.email}</p>{/if}
+                </div>
+                <div class="mt-4">
+                    <label for="phoneNumber" class="font-macondo text-black">Phone Number:</label>
+                    <input type="tel" id="phoneNumber" bind:value={phoneNumber} required class="w-full p-2 border rounded text-black" />
+                    {#if formErrors.phoneNumber}<p class="text-red-500">{formErrors.phoneNumber}</p>{/if}
+                </div>
+                <div class="mt-4">
+                    <label for="address" class="font-macondo text-black">Address:</label>
+                    <input type="text" id="address" bind:value={address} required class="w-full p-2 border rounded text-black" />
+                    {#if formErrors.address}<p class="text-red-500">{formErrors.address}</p>{/if}
+                </div>
+                <div class="mt-4">
+                    <label for="additionalInfo" class="font-macondo text-black">Additional Information:</label>
+                    <textarea id="additionalInfo" bind:value={additionalInfo} class="w-full p-2 border rounded text-black"></textarea>
+                </div>
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-full mb-4">Submit</button>
+            </form>
             <button on:click={closeModal} class="absolute top-2 right-2 text-gray-600" aria-label="Close modal">
                 <i class="fa-solid fa-xmark"></i>
             </button>

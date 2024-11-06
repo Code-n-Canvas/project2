@@ -2,10 +2,7 @@
     import { onMount } from "svelte";
     import Header from "$lib/Header.svelte";
     import ProductCard from "$lib/ProductCard.svelte";
-    import ProductModal from "$lib/ProductModal.svelte";
     import LocomotiveScroll from "locomotive-scroll";
-    import { cart, showCart } from '../../stores/cartStore';
-    import { get } from 'svelte/store';
     import type { ValidationErrors } from '../../lib/formValidator';
     import { validateForm } from '../../lib/formValidator';
 
@@ -20,6 +17,9 @@
     let additionalInfo = '';
     let showUserInfo = false;
     let formErrors: ValidationErrors = {};
+    let filteredProducts: Product[] = [];
+    let totalPrice = 0;
+    let checkedOutProduct: Product | null = null;
 
     // Define CartItem interface
     interface CartItem {
@@ -44,7 +44,8 @@
             description: "A delightful painting of Acheron enjoying a peach.",
             brand: "POP MART",
             size: "11×8×17.5cm",
-            material: "66% Polyester, 25% PVC, 9% ABS"
+            material: "66% Polyester, 25% PVC, 9% ABS",
+            category: "Stickers"
         },
         { 
             id: 2, 
@@ -54,7 +55,8 @@
             description: "Squish Squish.",
             brand: "Brand B",
             size: "12×9×18cm",
-            material: "70% Plastic, 30% Metal"
+            material: "70% Plastic, 30% Metal",
+            category: "Stickers"
         },
         { 
             id: 3, 
@@ -64,8 +66,75 @@
             description: "",
             brand: "Brand B",
             size: "12×9×18cm",
-            material: "70% Plastic, 30% Metal"
+            material: "70% Plastic, 30% Metal",
+            category: "Keychains"
         },
+        { 
+            id: 4, 
+            name: "Mystic Mug", 
+            price: 15, 
+            image: "images/p4.jpg", 
+            description: "A mug with mystical powers.",
+            brand: "Magic Co.",
+            size: "8×8×10cm",
+            material: "Ceramic",
+            category: "Mugs"
+        },
+        { 
+            id: 5, 
+            name: "Enchanted Bookmark", 
+            price: 5, 
+            image: "images/p5.jpg", 
+            description: "Keep your place in style.",
+            brand: "Bookish",
+            size: "5×15cm",
+            material: "Paper",
+            category: "Bookmarks"
+        },
+        { 
+            id: 6, 
+            name: "Galactic Keychain", 
+            price: 8, 
+            image: "images/p6.jpg", 
+            description: "Carry the galaxy with you.",
+            brand: "Starry",
+            size: "3×3cm",
+            material: "Metal",
+            category: "Keychains"
+        },
+        { 
+            id: 7, 
+            name: "Cosmic Notebook", 
+            price: 12, 
+            image: "images/p7.jpg", 
+            description: "A notebook with cosmic designs.",
+            brand: "Galactic Goods",
+            size: "15×21cm",
+            material: "Paper",
+            category: "Notebooks"
+        },
+        { 
+            id: 8, 
+            name: "Starry Night Lamp", 
+            price: 25, 
+            image: "images/p8.jpg", 
+            description: "Illuminate your room with stars.",
+            brand: "Luminous",
+            size: "10×10×20cm",
+            material: "Plastic",
+            category: "Lamps"
+        },
+        { 
+            id: 9, 
+            name: "Aurora Poster", 
+            price: 18, 
+            image: "images/p9.jpg", 
+            description: "A beautiful poster of the aurora.",
+            brand: "Artistic Prints",
+            size: "50×70cm",
+            material: "Paper",
+            category: "Posters"
+        }
     ];
 
     // Initialize LocomotiveScroll on mount
@@ -75,6 +144,8 @@
             smooth: true,
         });
 
+        filteredProducts = products; // Show all products initially
+
         return () => {
             if (locomotiveScroll) {
                 locomotiveScroll.destroy();
@@ -82,26 +153,13 @@
         };
     });
 
-    // Add product to cart
-    function addToCart(productId: number, quantity: number) {
-        const product = products.find((p: Product) => p.id === productId);
-        if (product) {
-            cart.update((items: CartItem[]) => {
-                const existingItem = items.find((item: CartItem) => item.id === productId);
-                if (existingItem) {
-                    existingItem.quantity += quantity;
-                } else {
-                    items.push({ ...product, quantity });
-                }
-                return items;
-            });
+    // Filter products by category
+    function filterByCategory(category: string) {
+        if (category === "All") {
+            filteredProducts = products;
+        } else {
+            filteredProducts = products.filter(product => product.category === category);
         }
-    }
-
-    // Calculate total price of items in cart
-    function calculateTotal() {
-        const cartItems = get(cart);
-        return cartItems.reduce((total: number, item: CartItem) => total + item.price * item.quantity, 0);
     }
 
     // Show user info form for checkout
@@ -110,10 +168,11 @@
     }
 
     // Validate and submit form
-    function submitForm() {
+    function formCheck() {
         formErrors = validateForm(name, email, phoneNumber, address);
         if (Object.keys(formErrors).length === 0) {
             console.log({ name, email, phoneNumber, address, selectedProduct, quantity, additionalInfo });
+            closeModal();
         } else {
             console.error("Form validation failed", formErrors);
         }
@@ -129,6 +188,7 @@
         brand: string;
         size: string;
         material: string;
+        category: string;
     }
 
     // Open product modal
@@ -141,117 +201,169 @@
         selectedProduct = null;
     }
 
-    // Update quantity of a product in the cart
-    function updateQuantity(productId: number, change: number) {
-        cart.update((items: CartItem[]) => {
-            const itemIndex = items.findIndex((item: CartItem) => item.id === productId);
-            if (itemIndex !== -1) {
-                const updatedItem = { ...items[itemIndex], quantity: Math.max(1, items[itemIndex].quantity + change) };
-                items = [
-                    ...items.slice(0, itemIndex),
-                    updatedItem,
-                    ...items.slice(itemIndex + 1)
-                ];
-            }
-            return items;
-        });
-        // Trigger recalculation of total
-        total = calculateTotal();
+    // Update quantity
+    function updateQuantity(change: number) {
+        quantity = Math.max(1, quantity + change);
     }
 
-    // Remove product from cart
-    function removeFromCart(productId: number) {
-        cart.update((items: CartItem[]) => items.filter((item: CartItem) => item.id !== productId));
+    // Update total price whenever selectedProduct or quantity changes
+    $: if (selectedProduct) {
+        totalPrice = selectedProduct.price * quantity;
     }
 
-    // Reactive statement to recalculate total when cart changes
-    $: total = calculateTotal();
+    // Function to go back to product input
+    function goBackToProductInput() {
+        // Ensure the product modal is open
+        if (checkedOutProduct) {
+            selectedProduct = checkedOutProduct;
+            checkedOutProduct = null; // Clear the checked-out product to return to the product input
+        }
+    }
+
+    // Function to handle checkout
+    function handleCheckout() {
+        if (selectedProduct) {
+            checkedOutProduct = { ...selectedProduct }; // Store the checked-out product details
+            console.log("Checkout complete");
+            selectedProduct = null; // Close the product modal
+        }
+    }
 </script>
 
-<div class="container mx-auto py-10">
-    <h1 class="text-4xl font-dynapuff text-center mb-8">Shop</h1>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {#each products as product}
-            <ProductCard {product} {openModal} />
-        {/each}
-    </div>
+<style>
+    .sidebar {
+        width: 20%;
+        background-color: white;
+        padding: 1rem;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Center items vertically */
+        height: 100vh; /* Full viewport height */
+    }
 
-    {#if $showCart}
-    <div class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-        <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
-            <h2 class="text-2xl mb-4 font-dynapuff text-black">Cart</h2>
-            {#if get(cart).length === 0}
-                <p class="text-center text-gray-700">No items added to the cart yet.</p>
-            {:else}
-                <ul>
-                    {#each $cart as item}
-                    <li class="flex justify-between items-center mb-2">
-                        <div class="flex items-center w-1/2">
-                            <img src={item.image} alt={item.name} class="w-16 h-16 object-cover mr-4" />
-                            <span class="font-macondo text-black">{item.name}</span>
-                        </div>
-                        <div class="flex items-center space-x-2 w-1/4 justify-center">
-                            <button on:click={() => updateQuantity(item.id, -1)} class="px-2 py-1 bg-gray-700 text-white rounded">-</button>
-                            <span class="mx-2 text-black">{item.quantity}</span>
-                            <button on:click={() => updateQuantity(item.id, 1)} class="px-2 py-1 bg-gray-700 text-white rounded">+</button>
-                        </div>
-                        <span class="text-black w-1/4 text-right">${item.price * item.quantity}</span>
-                        <button on:click={() => removeFromCart(item.id)} class="ml-4 px-2 py-1 bg-red-600 text-white rounded">Remove</button>
-                    </li>
-                    {/each}
-                </ul>
-                <p class="mt-4 font-macondo text-black">Total: ${total}</p>
-                <button on:click={proceedToCheckout} class="mt-4 bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-500 transition duration-200">Proceed to Checkout</button>
-            {/if}
-            <button on:click={() => showCart.set(false)} class="mt-4 bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-500 transition duration-200">Close</button>
+    .main-content {
+        width: 80%;
+        padding: 2rem;
+    }
+
+    .container {
+        display: flex;
+        background-color: #1a1a2e; /* Dark background */
+        color: white; /* White text for contrast */
+    }
+
+    a {
+        color: black;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: #3498db; /* Hover color */
+    }
+
+    .modal-close-button {
+        z-index: 10; /* Ensure the button is on top */
+    }
+</style>
+
+<div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <ul class="space-y-4">
+            <li><a href="#" on:click={() => filterByCategory("All")}>All</a></li>
+            <li><a href="#" on:click={() => filterByCategory("Stickers")}>Stickers</a></li>
+            <li><a href="#" on:click={() => filterByCategory("Bookmarks")}>Bookmarks</a></li>
+            <li><a href="#" on:click={() => filterByCategory("Keychains")}>Keychains</a></li>
+            <li><a href="#" on:click={() => filterByCategory("Posters")}>Posters</a></li>
+            <li><a href="#" on:click={() => filterByCategory("Cards")}>Cards</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1 class="text-4xl font-dynapuff text-center mb-8">Shop</h1>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {#each filteredProducts as product}
+                <ProductCard {product} {openModal} />
+            {/each}
         </div>
+        {#if selectedProduct}
+            <div class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+                <div class="bg-white p-6 rounded-lg shadow-lg max-w-2xl w-full flex relative">
+                    <div class="w-1/2">
+                        <img src={selectedProduct.image} alt={selectedProduct.name} class="w-full h-auto object-cover" />
+                    </div>
+                    <div class="w-1/2 pl-6">
+                        <h2 class="text-2xl font-bold mb-2 text-black">{selectedProduct.name}</h2>
+                        <p class="text-red-600 text-xl mb-4">₱{totalPrice.toFixed(2)}</p>
+                        <p class="text-black mb-2">{selectedProduct.description}</p>
+                        <p class="text-black mb-2"><strong>Brand:</strong> {selectedProduct.brand}</p>
+                        <p class="text-black mb-2"><strong>Size:</strong> {selectedProduct.size}</p>
+                        <p class="text-black mb-4"><strong>Material:</strong> {selectedProduct.material}</p>
+                        <div class="flex items-center mb-4">
+                            <label for="quantity" class="mr-2 text-black font-semibold">Quantity:</label>
+                            <button on:click={() => updateQuantity(-1)} class="px-3 py-2 bg-gray-400 text-white rounded-lg text-lg">-</button>
+                            <input type="number" id="quantity" bind:value={quantity} min="1" 
+                                   class="w-16 text-center mx-3 border-2 border-gray-400 rounded-lg text-xl font-bold text-black" />
+                            <button on:click={() => updateQuantity(1)} class="px-3 py-2 bg-gray-400 text-white rounded-lg text-lg">+</button>
+                        </div>
+                        <form on:submit|preventDefault={formCheck}>
+                            <div class="mt-4">
+                                <label for="name" class="font-macondo text-black">Name:</label>
+                                <input type="text" id="name" bind:value={name} required class="w-full p-2 border rounded text-black" />
+                                {#if formErrors.name}<p class="text-red-500">{formErrors.name}</p>{/if}
+                            </div>
+                            <div class="mt-4">
+                                <label for="email" class="font-macondo text-black">E-mail:</label>
+                                <input type="email" id="email" bind:value={email} required class="w-full p-2 border rounded text-black" />
+                                {#if formErrors.email}<p class="text-red-500">{formErrors.email}</p>{/if}
+                            </div>
+                            <div class="mt-4">
+                                <label for="phoneNumber" class="font-macondo text-black">Phone Number:</label>
+                                <input type="tel" id="phoneNumber" bind:value={phoneNumber} required class="w-full p-2 border rounded text-black" />
+                                {#if formErrors.phoneNumber}<p class="text-red-500">{formErrors.phoneNumber}</p>{/if}
+                            </div>
+                            <div class="mt-4">
+                                <label for="address" class="font-macondo text-black">Address:</label>
+                                <input type="text" id="address" bind:value={address} required class="w-full p-2 border rounded text-black" />
+                                {#if formErrors.address}<p class="text-red-500">{formErrors.address}</p>{/if}
+                            </div>
+                            <div class="mt-4">
+                                <label for="additionalInfo" class="font-macondo text-black">Additional Information:</label>
+                                <textarea id="additionalInfo" bind:value={additionalInfo} class="w-full p-2 border rounded text-black"></textarea>
+                            </div>
+                            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-full mb-4">Checkout</button>
+                        </form>
+                        <button on:click={closeModal} class="absolute top-2 right-2 text-gray-600 modal-close-button" aria-label="Close modal">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        {/if}
+        {#if checkedOutProduct}
+            <div class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+                <div class="bg-white p-6 rounded-lg shadow-lg max-w-2xl w-full relative">
+                    <h2 class="text-2xl font-bold mb-4 text-black">Order Summary</h2>
+                    <p class="text-black mb-2"><strong>Product:</strong> {checkedOutProduct?.name}</p>
+                    <p class="text-black mb-2"><strong>Quantity:</strong> {quantity}</p>
+                    <p class="text-black mb-2"><strong>Total Price:</strong> ₱{totalPrice.toFixed(2)}</p>
+                    <h3 class="text-xl font-bold mt-4 mb-2 text-black">User Information</h3>
+                    <p class="text-black mb-2"><strong>Name:</strong> {name}</p>
+                    <p class="text-black mb-2"><strong>Email:</strong> {email}</p>
+                    <p class="text-black mb-2"><strong>Phone Number:</strong> {phoneNumber}</p>
+                    <p class="text-black mb-2"><strong>Address:</strong> {address}</p>
+                    <p class="text-black mb-2"><strong>Additional Info:</strong> {additionalInfo}</p>
+                    <div class="flex justify-between mt-4">
+                        <button on:click={goBackToProductInput} class="bg-gray-600 text-white px-4 py-2 rounded-full">Back</button>
+                        <button on:click={handleCheckout} class="bg-blue-600 text-white px-4 py-2 rounded-full">Checkout</button>
+                    </div>
+                    <button on:click={() => { checkedOutProduct = null; }} class="absolute top-2 right-2 text-gray-600" aria-label="Close summary">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+        {/if}
     </div>
-
-    {/if}
-
-    {#if showUserInfo}
-    <div class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-        <form on:submit|preventDefault={submitForm} class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
-            <h2 class="text-2xl mb-4 font-dynapuff text-black">Order Summary</h2>
-            <ul>
-                {#each $cart as item}
-                    <li class="font-macondo text-black">{item.name} - {item.quantity} x ${item.price}</li>
-                {/each}
-            </ul>
-            <p class="mt-4 font-macondo text-black">Total: ${calculateTotal()}</p>
-            <div class="mt-4">
-                <label for="name" class="font-macondo text-black">Name:</label>
-                <input type="text" id="name" bind:value={name} required class="w-full p-2 border rounded text-black" />
-                {#if formErrors.name}<p class="text-red-500">{formErrors.name}</p>{/if}
-            </div>
-            <div class="mt-4">
-                <label for="email" class="font-macondo text-black">E-mail:</label>
-                <input type="email" id="email" bind:value={email} required class="w-full p-2 border rounded text-black" />
-                {#if formErrors.email}<p class="text-red-500">{formErrors.email}</p>{/if}
-            </div>
-            <div class="mt-4">
-                <label for="phoneNumber" class="font-macondo text-black">Phone Number:</label>
-                <input type="tel" id="phoneNumber" bind:value={phoneNumber} required class="w-full p-2 border rounded text-black" />
-                {#if formErrors.phoneNumber}<p class="text-red-500">{formErrors.phoneNumber}</p>{/if}
-            </div>
-            <div class="mt-4">
-                <label for="address" class="font-macondo text-black">Address:</label>
-                <input type="text" id="address" bind:value={address} required class="w-full p-2 border rounded text-black" />
-                {#if formErrors.address}<p class="text-red-500">{formErrors.address}</p>{/if}
-            </div>
-            <div class="mt-4">
-                <label for="additionalInfo" class="font-macondo text-black">Additional Information:</label>
-                <textarea id="additionalInfo" bind:value={additionalInfo} class="w-full p-2 border rounded text-black"></textarea>
-            </div>
-            <div class="flex justify-between mt-4">
-                <button type="button" on:click={() => { showUserInfo = false; showCart.set(true); }} class="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-500 transition duration-200">Back</button>
-                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-500 transition duration-200">Submit</button>
-            </div>
-        </form>
-    </div>
-    {/if}
-
-    {#if selectedProduct}
-        <ProductModal {selectedProduct} {addToCart} {closeModal} on:click={closeModal} />
-    {/if}
 </div>

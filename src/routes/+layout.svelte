@@ -30,7 +30,7 @@
         </button>
     </div>
     <!-- Header component -->
-    <Header {y} {innerHeight} {toggleCart} />
+    <Header {y} {innerHeight}/>
     <!-- Slot for additional content -->
     <slot />
 </div>

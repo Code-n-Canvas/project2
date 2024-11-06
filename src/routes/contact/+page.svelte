@@ -6,19 +6,21 @@
     name?: string;
     email?: string;
     phoneNumber?: string;
+    address?: string;
   };
 
   let name = '';
   let email = '';
   let phoneNumber = '';
+  let address = '';
   let reason = '';
   let additionalInfo = '';
   let errors = writable<ErrorType>({});
 
   function submitForm() {
-    const validationErrors = validateForm(name, email, phoneNumber);
+    const validationErrors = validateForm(name, email, phoneNumber, address);
     if (Object.keys(validationErrors).length === 0) {
-      console.log({ name, email, phoneNumber, reason, additionalInfo });
+      console.log({ name, email, phoneNumber, address, reason, additionalInfo });
       // Handle form submission
     } else {
       errors.set(validationErrors);
@@ -48,6 +50,13 @@
       <input type="tel" id="phoneNumber" bind:value={phoneNumber} required class="w-full p-2 border rounded text-black" />
       {#if $errors.phoneNumber}
         <p class="text-red-600">{$errors.phoneNumber}</p>
+      {/if}
+    </div>
+    <div class="mb-4">
+      <label for="address" class="font-macondo text-black">Address:</label>
+      <input type="text" id="address" bind:value={address} required class="w-full p-2 border rounded text-black" />
+      {#if $errors.address}
+        <p class="text-red-600">{$errors.address}</p>
       {/if}
     </div>
     <div class="mb-4">
