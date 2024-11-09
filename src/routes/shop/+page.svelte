@@ -45,7 +45,7 @@
         "Gokoru Series - Coffee Lover Sticker starring Gokoru (Gordon College Girl)",
       brand: "POP MART",
       size: "11×8×17.5cm",
-      material: "66% Polyester, 25% PVC, 9% ABS",
+      material: "Vinyl",
       category: "Stickers",
     },
     {
@@ -57,7 +57,7 @@
         "Gokoru Series - Crying, Pity, Cute Sticker starring Gokoru (Gordon College Girl)",
       brand: "Brand B",
       size: "12×9×18cm",
-      material: "70% Plastic, 30% Metal",
+      material: "Vinyl",
       category: "Stickers",
     },
     {
@@ -69,7 +69,7 @@
         "Gokoru Series - Funny Programming Meme Sticker starring Gokare (Gordon College Boy)",
       brand: "Brand B",
       size: "12×9×18cm",
-      material: "70% Plastic, 30% Metal",
+      material: "Vinyl",
       category: "Keychains",
     },
     {
@@ -207,11 +207,14 @@
   // Open product modal
   function openModal(product: Product) {
     selectedProduct = product;
+    document.body.style.overflow = 'hidden'; // Prevent body scroll
+    document.querySelector('.modal-scroll')?.scrollTo(0, 0); // Reset scroll position of modal
   }
 
   // Close product modal
   function closeModal() {
     selectedProduct = null;
+    document.body.style.overflow = ''; // Restore body scroll
   }
 
   // Update quantity
@@ -302,7 +305,7 @@
           class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
         >
           <div
-            class="bg-white p-4 md:p-6 rounded-lg shadow-lg max-w-full md:max-w-2xl w-full flex flex-col md:flex-row relative overflow-y-auto max-h-[90vh] md:max-h-[80vh]"
+            class="bg-white p-4 md:p-6 rounded-lg shadow-lg max-w-full md:max-w-2xl w-full flex flex-col md:flex-row relative overflow-y-auto max-h-[90vh] md:max-h-[80vh] modal-scroll"
           >
             <div class="w-full md:w-1/2 mb-4 md:mb-0">
               <img
@@ -311,7 +314,7 @@
                 class="w-full h-auto object-cover rounded-lg"
               />
             </div>
-            <div class="w-full md:w-1/2 pl-0 md:pl-6">
+            <div class="w-full md:w-1/2 pl-0 md:pl-6 overflow-y-auto max-h-[70vh]">
               <h2 class="text-xl md:text-2xl font-bold mb-2 text-black">
                 {selectedProduct.name}
               </h2>
@@ -505,5 +508,17 @@
 
   .modal-close-button {
     z-index: 10; /* Ensure the button is on top */
+  }
+
+  .modal-scroll {
+    overflow-y: auto; /* Enable scrolling within the modal */
+    max-height: 90vh; /* Limit the height of the modal */
+  }
+
+  /* Hide modal scroll for larger screens */
+  @media (min-width: 768px) {
+    .modal-scroll {
+      overflow-y: hidden; /* Disable scrolling in modal for larger screens */
+    }
   }
 </style>
