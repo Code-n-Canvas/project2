@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import Header from "$lib/Header.svelte";
   import ProductCard from "$lib/ProductCard.svelte";
   import LocomotiveScroll from "locomotive-scroll";
   import type { ValidationErrors } from "../../lib/formValidator";
@@ -194,6 +193,7 @@
   // Close product modal
   function closeModal() {
     selectedProduct = null;
+    checkout = false;
   }
 
   // Update quantity
@@ -351,102 +351,115 @@
 
               <!-- CHECKOUT -->
               {#if checkout}
-                <section>
+                <section class="relative">
+                  <!-- BACK BUTTON -->
+                  <button
+                    on:click={() => {
+                      checkout = false;
+                    }}
+                    class=" top-2 left-2 text-gray-600 z-10 mb-5"
+                    aria-label="Cancel Purchase"
+                  >
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span class="ms-2">Back</span>
+                  </button>
                   <!-- QUANTITY -->
-                  <div class="flex items-center mb-4 flex-wrap">
-                    <label
-                      for="quantity"
-                      class="mr-2 text-black font-semibold w-full md:w-auto"
-                      >Quantity:</label
-                    >
-                    <div class="flex items-center w-full md:w-auto">
-                      <button
-                        on:click={() => updateQuantity(-1)}
-                        class="px-3 py-2 bg-gray-400 text-white rounded-lg text-lg"
-                        >-</button
-                      >
-                      <input
-                        type="number"
-                        id="quantity"
-                        bind:value={quantity}
-                        min="1"
-                        class="w-16 text-center mx-3 border-2 border-gray-400 rounded-lg text-xl font-bold text-black"
-                      />
-                      <button
-                        on:click={() => updateQuantity(1)}
-                        class="px-3 py-2 bg-gray-400 text-white rounded-lg text-lg"
-                        >+</button
-                      >
+                  <div class="flex justify-center">
+                    <div class="flex-col">
+                      <h1 class="text-center">Quantity:</h1>
+                      <div class="flex items-center w-full md:w-auto">
+                        <button
+                          on:click={() => updateQuantity(-1)}
+                          class="px-3 py-2 bg-hot text-white rounded-lg text-lg"
+                          >-</button
+                        >
+                        <input
+                          type="number"
+                          id="quantity"
+                          bind:value={quantity}
+                          min="1"
+                          class="w-16 text-center mx-3 border-2 border-gray-400 rounded-lg text-xl font-bold text-black"
+                        />
+                        <button
+                          on:click={() => updateQuantity(1)}
+                          class="px-3 py-2 bg-hot text-white rounded-lg text-lg"
+                          >+</button
+                        >
+                      </div>
                     </div>
                   </div>
 
                   <!-- FORM -->
                   <form on:submit|preventDefault={formCheck}>
-                    <div class="mt-4">
-                      <label for="name" class="font-macondo text-black"
-                        >Name:</label
-                      >
-                      <input
-                        type="text"
-                        id="name"
-                        bind:value={name}
-                        required
-                        class="w-full p-2 border rounded text-black"
-                      />
-                      {#if formErrors.name}<p class="text-red-500">
-                          {formErrors.name}
-                        </p>{/if}
+                    <!-- FORM FIELDS -->
+                    <div class="mb-7">
+                      <!-- BUYER NAME -->
+                      <div>
+                        <label for="name">Name:</label>
+                        <input
+                          type="text"
+                          id="name"
+                          bind:value={name}
+                          required
+                          class="w-full px-2 border rounded text-black"
+                        />
+                        {#if formErrors.name}<p class="text-red-500">
+                            {formErrors.name}
+                          </p>{/if}
+                      </div>
+                      <!-- BUYER EMAIL -->
+                      <div>
+                        <label for="email">E-mail:</label>
+                        <input
+                          type="email"
+                          id="email"
+                          bind:value={email}
+                          required
+                          class="w-full px-2 border rounded text-black"
+                        />
+                        {#if formErrors.email}<p class="text-red-500">
+                            {formErrors.email}
+                          </p>{/if}
+                      </div>
+                      <!-- BUYER PHONE NUMBER -->
+                      <div>
+                        <label for="phoneNumber">Phone Number:</label>
+                        <input
+                          type="tel"
+                          id="phoneNumber"
+                          bind:value={phoneNumber}
+                          required
+                          class="w-full px-2 border rounded text-black"
+                        />
+                        {#if formErrors.phoneNumber}<p class="text-red-500">
+                            {formErrors.phoneNumber}
+                          </p>{/if}
+                      </div>
+                      <!-- BUYER ADDRESS -->
+                      <div>
+                        <label for="address">Address:</label>
+                        <input
+                          type="text"
+                          id="address"
+                          bind:value={address}
+                          required
+                          class="w-full px-2 border rounded text-black"
+                        />
+                        {#if formErrors.address}<p class="text-red-500">
+                            {formErrors.address}
+                          </p>{/if}
+                      </div>
                     </div>
-                    <div class="mt-4">
-                      <label for="email" class="font-macondo text-black"
-                        >E-mail:</label
-                      >
-                      <input
-                        type="email"
-                        id="email"
-                        bind:value={email}
-                        required
-                        class="w-full p-2 border rounded text-black"
-                      />
-                      {#if formErrors.email}<p class="text-red-500">
-                          {formErrors.email}
-                        </p>{/if}
+
+                    <!-- CHECKOUT -->
+                    <div class="flex justify-center">
+                      <button
+                        class="bg-hot text-white px-6 py-2 text-lg"
+                        type="submit"
+                        >Checkout
+                        <i class="ms-1 fa-solid fa-arrow-right"></i>
+                      </button>
                     </div>
-                    <div class="mt-4">
-                      <label for="phoneNumber" class="font-macondo text-black"
-                        >Phone Number:</label
-                      >
-                      <input
-                        type="tel"
-                        id="phoneNumber"
-                        bind:value={phoneNumber}
-                        required
-                        class="w-full p-2 border rounded text-black"
-                      />
-                      {#if formErrors.phoneNumber}<p class="text-red-500">
-                          {formErrors.phoneNumber}
-                        </p>{/if}
-                    </div>
-                    <div class="mt-4">
-                      <label for="address" class="font-macondo text-black"
-                        >Address:</label
-                      >
-                      <input
-                        type="text"
-                        id="address"
-                        bind:value={address}
-                        required
-                        class="w-full p-2 border rounded text-black"
-                      />
-                      {#if formErrors.address}<p class="text-red-500">
-                          {formErrors.address}
-                        </p>{/if}
-                    </div>
-                    <button
-                      type="submit"
-                      class="bg-blue-600 text-white px-4 py-2 rounded-full mb-4"
-                      >Checkout</button
-                    >
                   </form>
                 </section>
               {/if}
