@@ -3,7 +3,6 @@
   export let tabs = [
     { name: "Home", link: "/project2/" },
     { name: "Shop", link: "/project2/shop" },
-    //   { name: "Projects", link: "/portfolio" },
   ];
 
   // State to toggle dropdown
@@ -11,32 +10,29 @@
 </script>
 
 <header
-  class="sticky z-[10] top-0 duration-200 py-4 px-8 flex w-full items-center justify-between border-b border-solid bg-primary text-black"
+  class="sticky z-[1] top-0 duration-200 py-4 px-8 flex w-full items-center justify-between border-b border-solid bg-primary text-black"
 >
-  <!-- Header Title -->
-  <h1 class="font-medium">
+  <!-- NAVBAR TITLE -->
+  <h1 class="font-medium text-2xl ml-5">
     <b class="font-dynapuff">Cozy Creatives</b>
   </h1>
-  <!-- Navigation Tabs for larger screens -->
-  <div class="sm:flex items-center gap-4 hidden">
-    {#each tabs as tab, index}
+
+  <!-- MENU FOR LARGE SCREENS -->
+  <div class="sm:flex items-center gap-10 hidden">
+    {#each tabs as tab}
       <a href={tab.link} class="duration-200 hover:text-blue-400">
         <p class="font-macondo">{tab.name}</p>
       </a>
     {/each}
-    <!-- connect with me button -->
     <a
       href="/project2/contact"
-      class="blueShadow relative overflow-hidden px-5 py-2 group rounded-full bg-black text-white"
+      class=" relative overflow-hidden px-5 py-2 group rounded-full bg-black text-white"
     >
-      <div
-        class="absolute top-0 right-full w-full h-full bg-blue-400 opacity-20 group-hover:translate-x-full z-0 duration-200"
-      ></div>
       <h4 class="relative z-9 font-macondo">Connect with Us!</h4>
     </a>
-    <!-- Add Cart Button -->
   </div>
-  <!-- Dropdown button for mobile view -->
+
+  <!-- MENU FOR SMALL SCREENS -->
   <div class="sm:hidden relative">
     <button
       on:click={() => (isDropdownOpen = !isDropdownOpen)}
@@ -45,11 +41,13 @@
     >
       <i class="fas fa-bars"></i>
     </button>
+
+    <!-- MENU DROPDOWN -->
     {#if isDropdownOpen}
       <div
         class="absolute right-0 mt-2 w-48 bg-black border border-gray-200 rounded shadow-lg transition-transform transform origin-top-right duration-200 ease-out scale-100"
       >
-        {#each tabs as tab, index}
+        {#each tabs as tab}
           <a
             href={tab.link}
             class="block px-4 py-2 text-white hover:text-blue-400 duration-200"

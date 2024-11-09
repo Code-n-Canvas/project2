@@ -17,7 +17,7 @@
 
   <!-- PRODUCT DETAILS-->
   <div class="mt-2">
-    <h2 class="text-base">Denzetsu</h2>
+    <h2 class="text-base">{product.brand}</h2>
     <h3 class="font-medium text-xl sm:text-2xl md:text-sm font-afacad">
       {product.name}
     </h3>

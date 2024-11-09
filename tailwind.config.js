@@ -7,6 +7,7 @@ export default {
         primary: "#FFF8A7",
         secondary: "#BF3D3D",
         accent: "#FFFDF0",
+        hot: "#BF3D3D",
       },
       fontFamily: {
         dynapuff: ['"DynaPuff"', "sans-serif"],

@@ -15,24 +15,11 @@
   let selectedProduct: Product | null = null;
   let quantity = 1;
   let additionalInfo = "";
-  let showUserInfo = false;
+  let checkout = false;
   let formErrors: ValidationErrors = {};
   let filteredProducts: Product[] = [];
   let totalPrice = 0;
   let checkedOutProduct: Product | null = null;
-
-  // Define CartItem interface
-  interface CartItem {
-    id: number;
-    name: string;
-    price: number;
-    image: string;
-    description: string;
-    brand: string;
-    size: string;
-    material: string;
-    quantity: number;
-  }
 
   // Sample products data
   let products = [
@@ -43,7 +30,7 @@
       image: "images/p1.png",
       description:
         "Gokoru Series - Coffee Lover Sticker starring Gokoru (Gordon College Girl)",
-      brand: "POP MART",
+      brand: "Gokoru Series",
       size: "11×8×17.5cm",
       material: "66% Polyester, 25% PVC, 9% ABS",
       category: "Stickers",
@@ -55,7 +42,7 @@
       image: "images/p2.png",
       description:
         "Gokoru Series - Crying, Pity, Cute Sticker starring Gokoru (Gordon College Girl)",
-      brand: "Brand B",
+      brand: "Gokoru Series",
       size: "12×9×18cm",
       material: "70% Plastic, 30% Metal",
       category: "Stickers",
@@ -67,7 +54,7 @@
       image: "images/p3.png",
       description:
         "Gokoru Series - Funny Programming Meme Sticker starring Gokare (Gordon College Boy)",
-      brand: "Brand B",
+      brand: "Gokoru Series",
       size: "12×9×18cm",
       material: "70% Plastic, 30% Metal",
       category: "Keychains",
@@ -165,11 +152,6 @@
         (product) => product.category === category
       );
     }
-  }
-
-  // Show user info form for checkout
-  function proceedToCheckout() {
-    showUserInfo = true;
   }
 
   // Validate and submit form
@@ -297,141 +279,182 @@
         {/each}
       </div>
 
+      <!-- MODAL -->
       {#if selectedProduct}
         <div
-          class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+          class="fixed z-10 inset-0 bg-black bg-opacity-50 flex justify-center items-center"
         >
+          <!-- MODAL CONTENT -->
           <div
-            class="bg-white p-4 md:p-6 rounded-lg shadow-lg max-w-full md:max-w-2xl w-full flex flex-col md:flex-row relative overflow-y-auto max-h-[90vh] md:max-h-[80vh]"
+            class="bg-white rounded-lg shadow-lg w-full relative max-h-[80%] max-w-[70%] grid grid-cols-2 overflow-hidden"
           >
-            <div class="w-full md:w-1/2 mb-4 md:mb-0">
+            <!-- CLOSE BUTTON -->
+            <button
+              on:click={closeModal}
+              class="absolute top-2 right-2 text-gray-600 z-10"
+              aria-label="Close modal"
+            >
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- LEFT SIDE: IMAGE -->
+            <div class="w-full bg-accent overflow-hidden">
               <img
                 src={selectedProduct.image}
                 alt={selectedProduct.name}
-                class="w-full h-auto object-cover rounded-lg"
+                class="w-full object-cover rounded-lg"
               />
             </div>
-            <div class="w-full md:w-1/2 pl-0 md:pl-6">
-              <h2 class="text-xl md:text-2xl font-bold mb-2 text-black">
-                {selectedProduct.name}
-              </h2>
-              <p class="text-red-600 text-lg md:text-xl mb-4">
-                ₱{totalPrice.toFixed(2)}
-              </p>
-              <p class="text-black mb-2">{selectedProduct.description}</p>
-              <p class="text-black mb-2">
-                <strong>Brand:</strong>
-                {selectedProduct.brand}
-              </p>
-              <p class="text-black mb-2">
-                <strong>Size:</strong>
-                {selectedProduct.size}
-              </p>
-              <p class="text-black mb-4">
-                <strong>Material:</strong>
-                {selectedProduct.material}
-              </p>
-              <div class="flex items-center mb-4 flex-wrap">
-                <label for="quantity" class="mr-2 text-black font-semibold w-full md:w-auto"
-                  >Quantity:</label
-                >
-                <div class="flex items-center w-full md:w-auto">
+
+            <!-- RIGHT SIDE: DETAILS -->
+            <div class="p-5">
+              <!-- PRODUCT INFO-->
+              {#if !checkout}
+                <section class="mt-10">
+                  <!-- NAME & BRAND -->
+                  <div class="mb-6">
+                    <h2 class="text-xl md:text-2xl font-bold text-black">
+                      {selectedProduct.name}
+                    </h2>
+                    <h3 class="text-black mb-2">
+                      {selectedProduct.brand}
+                    </h3>
+                  </div>
+                  <!-- PRICE -->
+                  <h2 class="text-red-600 text-lg md:text-3xl mb-4">
+                    ₱{totalPrice.toFixed(2)}
+                  </h2>
+                  <!-- PURCHASE -->
                   <button
-                    on:click={() => updateQuantity(-1)}
-                    class="px-3 py-2 bg-gray-400 text-white rounded-lg text-lg"
-                    >-</button
+                    class="bg-hot text-white text-2xl py-1 px-10 font-primary mb-10"
+                    on:click={() => {
+                      checkout = true;
+                    }}>Purchase</button
                   >
-                  <input
-                    type="number"
-                    id="quantity"
-                    bind:value={quantity}
-                    min="1"
-                    class="w-16 text-center mx-3 border-2 border-gray-400 rounded-lg text-xl font-bold text-black"
-                  />
-                  <button
-                    on:click={() => updateQuantity(1)}
-                    class="px-3 py-2 bg-gray-400 text-white rounded-lg text-lg"
-                    >+</button
-                  >
-                </div>
-              </div>
-              <form on:submit|preventDefault={formCheck}>
-                <div class="mt-4">
-                  <label for="name" class="font-macondo text-black">Name:</label
-                  >
-                  <input
-                    type="text"
-                    id="name"
-                    bind:value={name}
-                    required
-                    class="w-full p-2 border rounded text-black"
-                  />
-                  {#if formErrors.name}<p class="text-red-500">
-                      {formErrors.name}
-                    </p>{/if}
-                </div>
-                <div class="mt-4">
-                  <label for="email" class="font-macondo text-black"
-                    >E-mail:</label
-                  >
-                  <input
-                    type="email"
-                    id="email"
-                    bind:value={email}
-                    required
-                    class="w-full p-2 border rounded text-black"
-                  />
-                  {#if formErrors.email}<p class="text-red-500">
-                      {formErrors.email}
-                    </p>{/if}
-                </div>
-                <div class="mt-4">
-                  <label for="phoneNumber" class="font-macondo text-black"
-                    >Phone Number:</label
-                  >
-                  <input
-                    type="tel"
-                    id="phoneNumber"
-                    bind:value={phoneNumber}
-                    required
-                    class="w-full p-2 border rounded text-black"
-                  />
-                  {#if formErrors.phoneNumber}<p class="text-red-500">
-                      {formErrors.phoneNumber}
-                    </p>{/if}
-                </div>
-                <div class="mt-4">
-                  <label for="address" class="font-macondo text-black"
-                    >Address:</label
-                  >
-                  <input
-                    type="text"
-                    id="address"
-                    bind:value={address}
-                    required
-                    class="w-full p-2 border rounded text-black"
-                  />
-                  {#if formErrors.address}<p class="text-red-500">
-                      {formErrors.address}
-                    </p>{/if}
-                </div>
-                <button
-                  type="submit"
-                  class="bg-blue-600 text-white px-4 py-2 rounded-full mb-4"
-                  >Checkout</button
-                >
-              </form>
-              <button
-                on:click={closeModal}
-                class="absolute top-2 right-2 text-gray-600 modal-close-button"
-                aria-label="Close modal"
-              >
-                <i class="fa-solid fa-xmark"></i>
-              </button>
+                  <!-- DETAILS -->
+                  <div class="space-y-2 text-black">
+                    <p>
+                      <strong>Size:</strong>
+                      {selectedProduct.size}
+                    </p>
+                    <p>
+                      <strong>Material:</strong>
+                      {selectedProduct.material}
+                    </p>
+                    <p>
+                      <strong>Description:</strong>
+                      {selectedProduct.description}
+                    </p>
+                  </div>
+                </section>
+              {/if}
+
+              <!-- CHECKOUT -->
+              {#if checkout}
+                <section>
+                  <!-- QUANTITY -->
+                  <div class="flex items-center mb-4 flex-wrap">
+                    <label
+                      for="quantity"
+                      class="mr-2 text-black font-semibold w-full md:w-auto"
+                      >Quantity:</label
+                    >
+                    <div class="flex items-center w-full md:w-auto">
+                      <button
+                        on:click={() => updateQuantity(-1)}
+                        class="px-3 py-2 bg-gray-400 text-white rounded-lg text-lg"
+                        >-</button
+                      >
+                      <input
+                        type="number"
+                        id="quantity"
+                        bind:value={quantity}
+                        min="1"
+                        class="w-16 text-center mx-3 border-2 border-gray-400 rounded-lg text-xl font-bold text-black"
+                      />
+                      <button
+                        on:click={() => updateQuantity(1)}
+                        class="px-3 py-2 bg-gray-400 text-white rounded-lg text-lg"
+                        >+</button
+                      >
+                    </div>
+                  </div>
+
+                  <!-- FORM -->
+                  <form on:submit|preventDefault={formCheck}>
+                    <div class="mt-4">
+                      <label for="name" class="font-macondo text-black"
+                        >Name:</label
+                      >
+                      <input
+                        type="text"
+                        id="name"
+                        bind:value={name}
+                        required
+                        class="w-full p-2 border rounded text-black"
+                      />
+                      {#if formErrors.name}<p class="text-red-500">
+                          {formErrors.name}
+                        </p>{/if}
+                    </div>
+                    <div class="mt-4">
+                      <label for="email" class="font-macondo text-black"
+                        >E-mail:</label
+                      >
+                      <input
+                        type="email"
+                        id="email"
+                        bind:value={email}
+                        required
+                        class="w-full p-2 border rounded text-black"
+                      />
+                      {#if formErrors.email}<p class="text-red-500">
+                          {formErrors.email}
+                        </p>{/if}
+                    </div>
+                    <div class="mt-4">
+                      <label for="phoneNumber" class="font-macondo text-black"
+                        >Phone Number:</label
+                      >
+                      <input
+                        type="tel"
+                        id="phoneNumber"
+                        bind:value={phoneNumber}
+                        required
+                        class="w-full p-2 border rounded text-black"
+                      />
+                      {#if formErrors.phoneNumber}<p class="text-red-500">
+                          {formErrors.phoneNumber}
+                        </p>{/if}
+                    </div>
+                    <div class="mt-4">
+                      <label for="address" class="font-macondo text-black"
+                        >Address:</label
+                      >
+                      <input
+                        type="text"
+                        id="address"
+                        bind:value={address}
+                        required
+                        class="w-full p-2 border rounded text-black"
+                      />
+                      {#if formErrors.address}<p class="text-red-500">
+                          {formErrors.address}
+                        </p>{/if}
+                    </div>
+                    <button
+                      type="submit"
+                      class="bg-blue-600 text-white px-4 py-2 rounded-full mb-4"
+                      >Checkout</button
+                    >
+                  </form>
+                </section>
+              {/if}
             </div>
           </div>
         </div>
       {/if}
+
       {#if checkedOutProduct}
         <div
           class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
@@ -494,16 +517,6 @@
 </section>
 
 <style>
-  button {
-    color: blbuttonck;
-    text-decoration: none;
-  }
-
-  button:hover {
-    color: #3498db; /* Hover color */
-  }
-
-  .modal-close-button {
-    z-index: 10; /* Ensure the button is on top */
-  }
+  /* button:hover {
+  } */
 </style>
