@@ -31,7 +31,7 @@
         "Gokoru Series - Coffee Lover Sticker starring Gokoru (Gordon College Girl)",
       brand: "Gokoru Series",
       size: "11×8×17.5cm",
-      material: "66% Polyester, 25% PVC, 9% ABS",
+      material: "Vinyl",
       category: "Stickers",
     },
     {
@@ -43,7 +43,7 @@
         "Gokoru Series - Crying, Pity, Cute Sticker starring Gokoru (Gordon College Girl)",
       brand: "Gokoru Series",
       size: "12×9×18cm",
-      material: "70% Plastic, 30% Metal",
+      material: "Vinyl",
       category: "Stickers",
     },
     {
@@ -55,7 +55,7 @@
         "Gokoru Series - Funny Programming Meme Sticker starring Gokare (Gordon College Boy)",
       brand: "Gokoru Series",
       size: "12×9×18cm",
-      material: "70% Plastic, 30% Metal",
+      material: "Vinyl",
       category: "Keychains",
     },
     {
@@ -188,6 +188,8 @@
   // Open product modal
   function openModal(product: Product) {
     selectedProduct = product;
+    document.body.style.overflow = "hidden"; // Prevent body scroll
+    document.querySelector(".modal-scroll")?.scrollTo(0, 0); // Reset scroll position of modal
   }
 
   // Close product modal
