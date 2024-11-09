@@ -9,6 +9,7 @@ export default {
       colors: {
         primary: "#FFF8A7",
         secondary: "#BF3D3D",
+        accent: "#FFFDF0",
       },
       fontFamily: {
         dynapuff: ['"DynaPuff"', "sans-serif"],

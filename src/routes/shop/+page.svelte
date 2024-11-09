@@ -38,10 +38,11 @@
   let products = [
     {
       id: 1,
-      name: "Acheron eating a peach",
+      name: " Coffee Lover Sticker",
       price: 10,
-      image: "images/p1.jpg",
-      description: "A delightful painting of Acheron enjoying a peach.",
+      image: "images/p1.png",
+      description:
+        "Gokoru Series - Coffee Lover Sticker starring Gokoru (Gordon College Girl)",
       brand: "POP MART",
       size: "11×8×17.5cm",
       material: "66% Polyester, 25% PVC, 9% ABS",
@@ -49,10 +50,11 @@
     },
     {
       id: 2,
-      name: "Squishy Axolotl",
+      name: "Gokoru Crying Sticker",
       price: 20,
-      image: "images/p2.jpg",
-      description: "Squish Squish.",
+      image: "images/p2.png",
+      description:
+        "Gokoru Series - Crying, Pity, Cute Sticker starring Gokoru (Gordon College Girl)",
       brand: "Brand B",
       size: "12×9×18cm",
       material: "70% Plastic, 30% Metal",
@@ -60,10 +62,11 @@
     },
     {
       id: 3,
-      name: "Traveler",
+      name: "Programmer Sticker",
       price: 30,
-      image: "images/p3.jpg",
-      description: "",
+      image: "images/p3.png",
+      description:
+        "Gokoru Series - Funny Programming Meme Sticker starring Gokare (Gordon College Boy)",
       brand: "Brand B",
       size: "12×9×18cm",
       material: "70% Plastic, 30% Metal",
@@ -244,7 +247,7 @@
 <section class="flex flex-col md:flex-row">
   <!-- SIDEBAR (desktop) NAVBAR (mobile) -->
   <aside
-    class="md:sidebar md:w-64 md:h-screen w-full md:block bg-white shadow-2xl"
+    class="md:sidebar md:w-64 md:h-screen w-full md:block bg-white shadow-2xl sticky top-[0]"
   >
     <ul
       class="max-sm:gap-4 text-black p-5 text-sm md:text-xl flex md:flex-col flex-row overflow-auto justify-center md:justify-center md:mt-10"
@@ -287,7 +290,7 @@
     <section>
       <!-- INDIVIDUAL ITEM ITERATION -->
       <div
-        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-10"
       >
         {#each filteredProducts as product}
           <ProductCard {product} {openModal} />
