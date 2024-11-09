@@ -18,29 +18,60 @@
   });
 </script>
 
-<div data-scroll-container>
-  <section
-    class="flex flex-col items-center justify-center h-screen"
-    style="height: 80vh; margin-top: -20px;"
+<div
+  data-scroll-container
+  class="flex flex-col pt-20 px-24 max-sm:px-5 h-screen overflow-hidden relative"
+>
+  <!-- DIV FOR HEADER TEXTS -->
+  <div class="w-[40%] max-sm:w-[100%] max-sm:text-center">
+    <h1 class="text-5xl font-bold mb-4">
+      Witty Stickers, Charming Bookmarks, and More!
+    </h1>
+
+    <p>
+      Explore our handcrafted digital merchandise, designed to bring creativity
+      and coziness to your everyday life.
+    </p>
+  </div>
+
+  <!-- DIV FOR CALL TO ACTION BUTTONS -->
+  <div
+    class="ml-20 mt-20 max-sm:ml-0 max-sm:mt-10 flex gap-5 max-sm:justify-center"
   >
-    <div
-      class="relative shadow-2xl grid place-items-center justify-center -mt-10"
+    <button
+      class="text-white p-5 text-2xl max-sm:text-lg font-bold rounded-xl bg-red-500 shadow-md"
     >
-      <h1 class="text-8xl max-sm:text-4xl font-dynapuff text-white">
-        Cozy Creatives
-      </h1>
-    </div>
+      <h1>Shop Now!</h1>
+    </button>
 
-    <hr class="h-px w-[80%] mx-auto my-8 bg-white border-2" />
+    <button
+      class="text-black p-5 text-2xl max-sm:text-lg font-bold rounded-xl bg-white shadow-md"
+    >
+      <h1>Contact Us!</h1>
+    </button>
+  </div>
 
-    <div class="w-[80%]">
-      <p class="text-center text-lg">
-        Cozy Creatives is your go-to online shop for unique,
-        digitally-illustrated merchandise that brings charm and creativity to
-        everyday items. Check out our collection of witty stickers, whimsical
-        bookmarks, and playful keychains—each piece designed to add a cozy,
-        creative touch to your life.
-      </p>
-    </div>
-  </section>
+  <!-- DIV FOR MASCOT -->
+  <div class="max-sm:hidden absolute -right-20 -top-8 w-[55%]">
+    <img src="assets/mascot.png" alt="" />
+  </div>
+
+  <!-- DIV FOR BACKGROUND SQUARE -->
+  <div class="element"></div>
 </div>
+
+<style>
+  .element::before {
+    content: "";
+    position: absolute;
+    bottom: -18rem;
+    right: -18rem;
+    width: 1000px;
+    height: 700px;
+    background-color: #fff8a7; /* bg-primary color */
+    border-radius: 250px;
+    transform: rotate(70deg);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: -1;
+  }
+</style>

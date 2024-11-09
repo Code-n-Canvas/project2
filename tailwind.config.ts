@@ -6,15 +6,20 @@ export default {
 
   theme: {
     extend: {
+      colors: {
+        primary: "#FFF8A7",
+        secondary: "#BF3D3D",
+      },
       fontFamily: {
-        dynapuff: ['"DynaPuff"', 'sans-serif'],
-        caveat: ['"Caveat Brush"', 'sans-serif'],
-        karla: ['"Karla"', 'sans-serif'],
-        macondo: ['"Macondo"','sans-serif '],
-        concert: ['"Concert One"', 'sans-serif'],
-      }
-    }
+        dynapuff: ['"DynaPuff"', "sans-serif"],
+        caveat: ['"Caveat Brush"', "sans-serif"],
+        karla: ['"Karla"', "sans-serif"],
+        macondo: ['"Macondo"', "sans-serif "],
+        concert: ['"Concert One"', "sans-serif"],
+        secondary: ['"Montserrat"', "sans-serif"],
+      },
+    },
   },
 
-  plugins: [typography]
+  plugins: [typography],
 } as Config;

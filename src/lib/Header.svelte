@@ -1,9 +1,4 @@
 <script>
-
-  export let y;
-  export let innerHeight;
-  export let toggleCart;
-
   // Tabs for navigation
   export let tabs = [
     { name: "Home", link: "/project2/" },
@@ -16,10 +11,7 @@
 </script>
 
 <header
-  class={"sticky z-[10] top-0 duration-200 px-6 flex items-center justify-between border-b border-solid " +
-    (y > 0
-      ? " py-4 bg-black border-blue-700"
-      : " py-6 bg-transparent border-transparent")}
+  class="sticky z-[10] top-0 duration-200 py-4 px-8 flex w-full items-center justify-between border-b border-solid bg-primary text-black"
 >
   <!-- Header Title -->
   <h1 class="font-medium">
@@ -43,13 +35,6 @@
       <h4 class="relative z-9 font-macondo">Connect with Us!</h4>
     </a>
     <!-- Add Cart Button -->
-    <button
-      class="bg-blue-600 text-white p-2 rounded-full"
-      aria-label="View Cart"
-      on:click={() => showCart.set(true)}
-    >
-      <i class="fa-solid fa-cart-shopping"></i>
-    </button>
   </div>
   <!-- Dropdown button for mobile view -->
   <div class="sm:hidden relative">
