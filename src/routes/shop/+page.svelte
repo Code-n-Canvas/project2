@@ -287,7 +287,7 @@
   <!-- CONTENT -->
   <div class="flex flex-1 justify-center p-20 max-sm:p-5">
     <!--  ITEMS -->
-    <section>
+    <section class="overflow-x-auto">
       <!-- INDIVIDUAL ITEM ITERATION -->
       <div
         class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-10"
@@ -302,20 +302,20 @@
           class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
         >
           <div
-            class="bg-white p-6 rounded-lg shadow-lg max-w-2xl w-full flex relative"
+            class="bg-white p-4 md:p-6 rounded-lg shadow-lg max-w-full md:max-w-2xl w-full flex flex-col md:flex-row relative overflow-y-auto max-h-[90vh] md:max-h-[80vh]"
           >
-            <div class="w-1/2">
+            <div class="w-full md:w-1/2 mb-4 md:mb-0">
               <img
                 src={selectedProduct.image}
                 alt={selectedProduct.name}
-                class="w-full h-auto object-cover"
+                class="w-full h-auto object-cover rounded-lg"
               />
             </div>
-            <div class="w-1/2 pl-6">
-              <h2 class="text-2xl font-bold mb-2 text-black">
+            <div class="w-full md:w-1/2 pl-0 md:pl-6">
+              <h2 class="text-xl md:text-2xl font-bold mb-2 text-black">
                 {selectedProduct.name}
               </h2>
-              <p class="text-red-600 text-xl mb-4">
+              <p class="text-red-600 text-lg md:text-xl mb-4">
                 ₱{totalPrice.toFixed(2)}
               </p>
               <p class="text-black mb-2">{selectedProduct.description}</p>
@@ -331,27 +331,29 @@
                 <strong>Material:</strong>
                 {selectedProduct.material}
               </p>
-              <div class="flex items-center mb-4">
-                <label for="quantity" class="mr-2 text-black font-semibold"
+              <div class="flex items-center mb-4 flex-wrap">
+                <label for="quantity" class="mr-2 text-black font-semibold w-full md:w-auto"
                   >Quantity:</label
                 >
-                <button
-                  on:click={() => updateQuantity(-1)}
-                  class="px-3 py-2 bg-gray-400 text-white rounded-lg text-lg"
-                  >-</button
-                >
-                <input
-                  type="number"
-                  id="quantity"
-                  bind:value={quantity}
-                  min="1"
-                  class="w-16 text-center mx-3 border-2 border-gray-400 rounded-lg text-xl font-bold text-black"
-                />
-                <button
-                  on:click={() => updateQuantity(1)}
-                  class="px-3 py-2 bg-gray-400 text-white rounded-lg text-lg"
-                  >+</button
-                >
+                <div class="flex items-center w-full md:w-auto">
+                  <button
+                    on:click={() => updateQuantity(-1)}
+                    class="px-3 py-2 bg-gray-400 text-white rounded-lg text-lg"
+                    >-</button
+                  >
+                  <input
+                    type="number"
+                    id="quantity"
+                    bind:value={quantity}
+                    min="1"
+                    class="w-16 text-center mx-3 border-2 border-gray-400 rounded-lg text-xl font-bold text-black"
+                  />
+                  <button
+                    on:click={() => updateQuantity(1)}
+                    class="px-3 py-2 bg-gray-400 text-white rounded-lg text-lg"
+                    >+</button
+                  >
+                </div>
               </div>
               <form on:submit|preventDefault={formCheck}>
                 <div class="mt-4">
@@ -412,16 +414,6 @@
                   {#if formErrors.address}<p class="text-red-500">
                       {formErrors.address}
                     </p>{/if}
-                </div>
-                <div class="mt-4">
-                  <label for="additionalInfo" class="font-macondo text-black"
-                    >Additional Information:</label
-                  >
-                  <textarea
-                    id="additionalInfo"
-                    bind:value={additionalInfo}
-                    class="w-full p-2 border rounded text-black"
-                  ></textarea>
                 </div>
                 <button
                   type="submit"

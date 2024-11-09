@@ -59,7 +59,7 @@
         {/each}
         <a
           href="/project2/contact"
-          class="block px-4 py-2 text-white hover:text-blue-400 duration-200 font-afacad"
+          class="block px-4 py-2 text-white hover:text-yellow-400 duration-200 font-afacad"
         >
           Connect with Us!
         </a>

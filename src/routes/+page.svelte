@@ -38,17 +38,13 @@
   <div
     class="ml-20 mt-20 max-sm:ml-0 max-sm:mt-10 flex gap-5 max-sm:justify-center"
   >
-    <button
-      class="text-white p-5 text-2xl max-sm:text-lg font-bold rounded-xl bg-red-500 shadow-md"
-    >
+    <a href="/project2/shop" class="text-white p-5 text-2xl max-sm:text-lg font-bold rounded-xl bg-red-500 shadow-md">
       <h1>Shop Now!</h1>
-    </button>
+    </a>
 
-    <button
-      class="text-black p-5 text-2xl max-sm:text-lg font-bold rounded-xl bg-white shadow-md"
-    >
+    <a href="/project2/contact" class="text-black p-5 text-2xl max-sm:text-lg font-bold rounded-xl bg-white shadow-md">
       <h1>Contact Us!</h1>
-    </button>
+    </a>
   </div>
 
   <!-- DIV FOR MASCOT -->
