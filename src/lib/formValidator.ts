@@ -3,7 +3,6 @@ export interface ValidationErrors {
   email?: string;
   phoneNumber?: string;
   address?: string;
-  reason?: string;
 }
 
 export function validateForm(
@@ -11,7 +10,6 @@ export function validateForm(
   email: string,
   phoneNumber: string,
   address: string,
-  reason: string
 ): ValidationErrors {
   const errors: ValidationErrors = {};
 
@@ -35,9 +33,6 @@ export function validateForm(
     errors.address = "Address is required.";
   }
 
-  if (!reason.trim()) {
-    errors.reason = "Reason for contact is required.";
-  }
 
   return errors;
 }

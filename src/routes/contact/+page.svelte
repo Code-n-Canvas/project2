@@ -19,15 +19,14 @@
   let errors = writable<ErrorType>({});
 
   function submitForm() {
-    const validationErrors = validateForm(name, email, phoneNumber, address, reason);
+    const validationErrors = validateForm(name, email, phoneNumber, address,);
     if (Object.keys(validationErrors).length === 0) {
       console.log({
         name,
         email,
         phoneNumber,
         address,
-        reason,
-        additionalInfo,
+        reason
       });
       // Handle form submission
     } else {
