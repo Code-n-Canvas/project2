@@ -13,10 +13,10 @@
   }
 </script>
 
-<div
+<section
   class="container relative flex flex-col max-w-[1400px] mx-auto w-full text-sm sm:text-base min-h-screen z-[2]"
 >
-  <!-- Scroll to top button -->
+  <!-- SCROLL TO TOP BUTTON -->
   <div
     class={"fixed bottom-0 w-full right-0 duration-200 flex p-10 z-[10] " +
       (y > 0
@@ -32,11 +32,11 @@
     </button>
   </div>
 
-  <!-- Header component -->
+  <!-- HEADER/NAVBAR -->
   <Header />
-  <!-- Slot for additional content -->
+  <!-- OUTLET FOR WHATEVER CONTENT -->
   <slot />
-</div>
+</section>
 
 <!-- Bind scroll position and window dimensions -->
 <svelte:window bind:scrollY={y} bind:innerHeight bind:innerWidth />

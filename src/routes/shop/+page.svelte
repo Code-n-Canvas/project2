@@ -213,16 +213,16 @@
     // Ensure the product modal is open
     if (checkedOutProduct) {
       selectedProduct = checkedOutProduct;
-      checkedOutProduct = null; // Clear the checked-out product to return to the product input
+      checkedOutProduct = null;
     }
   }
 
   // Function to handle checkout
   function handleCheckout() {
     if (selectedProduct) {
-      checkedOutProduct = { ...selectedProduct }; // Store the checked-out product details
+      checkedOutProduct = { ...selectedProduct };
       console.log("Checkout complete");
-      selectedProduct = null; // Close the product modal
+      selectedProduct = null;
     }
   }
 </script>
@@ -231,10 +231,10 @@
 <section class="flex flex-col md:flex-row">
   <!-- SIDEBAR (desktop) NAVBAR (mobile) -->
   <aside
-    class="md:sidebar md:w-64 md:h-screen w-full md:block bg-white shadow-2xl sticky top-[0]"
+    class=" md:w-64 md:h-screen w-full md:block bg-white shadow-2xl sticky top-[0]"
   >
     <ul
-      class="max-sm:gap-4 text-black p-5 text-sm md:text-xl flex md:flex-col flex-row overflow-auto justify-center md:justify-center md:mt-10"
+      class="gap-4 md:gap-0 text-black p-5 text-sm md:text-xl flex md:flex-col flex-row overflow-auto justify-center md:justify-center md:mt-10"
     >
       <button
         class="md:border-b md:border-slate-300 md:py-3"
@@ -269,13 +269,11 @@
   </aside>
 
   <!-- CONTENT -->
-  <div class="flex flex-1 justify-center p-20 max-sm:p-5">
+  <div class="flex flex-1 justify-center py-16 px-12 max-sm:p-5">
     <!--  ITEMS -->
     <section class="overflow-x-auto">
       <!-- INDIVIDUAL ITEM ITERATION -->
-      <div
-        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-10"
-      >
+      <div class="flex flex-wrap justify-evenly gap-4">
         {#each filteredProducts as product}
           <ProductCard {product} {openModal} />
         {/each}
@@ -288,7 +286,7 @@
         >
           <!-- MODAL CONTENT -->
           <div
-            class="bg-white rounded-lg shadow-lg w-full relative max-h-[80%] max-w-[70%] grid grid-cols-2 overflow-hidden"
+            class="bg-white rounded-lg shadow-lg w-full relative max-h-[80%] max-w-[70%] grid grid-cols-2 max-md:overflow-hidden max-sm:overflow-auto"
           >
             <!-- CLOSE BUTTON -->
             <button
@@ -300,7 +298,9 @@
             </button>
 
             <!-- LEFT SIDE: IMAGE -->
-            <div class="w-full bg-accent overflow-hidden">
+            <div
+              class="col-span-1 max-sm:col-span-2 w-full bg-accent overflow-hidden"
+            >
               <img
                 src={selectedProduct.image}
                 alt={selectedProduct.name}
@@ -309,7 +309,7 @@
             </div>
 
             <!-- RIGHT SIDE: DETAILS -->
-            <div class="p-5">
+            <div class="col-span-1 max-sm:col-span-2 p-5">
               <!-- PRODUCT INFO-->
               {#if !checkout}
                 <section class="mt-10">
