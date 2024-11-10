@@ -11,6 +11,7 @@
   let email = "";
   let phoneNumber = "";
   let address = "";
+  let reason = "";
   let selectedProduct: Product | null = null;
   let quantity = 1;
   let additionalInfo = "";
@@ -155,7 +156,7 @@
 
   // Validate and submit form
   function formCheck() {
-    formErrors = validateForm(name, email, phoneNumber, address);
+    formErrors = validateForm(name, email, phoneNumber, address, reason);
     if (Object.keys(formErrors).length === 0) {
       console.log({
         name,

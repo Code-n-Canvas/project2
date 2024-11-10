@@ -3,13 +3,15 @@ export interface ValidationErrors {
   email?: string;
   phoneNumber?: string;
   address?: string;
+  reason?: string;
 }
 
 export function validateForm(
   name: string,
   email: string,
   phoneNumber: string,
-  address: string
+  address: string,
+  reason: string
 ): ValidationErrors {
   const errors: ValidationErrors = {};
 
@@ -25,12 +27,16 @@ export function validateForm(
 
   if (!phoneNumber.trim()) {
     errors.phoneNumber = "Phone number is required.";
-  } else if (!/^\d{9}$/.test(phoneNumber.replace(/\D/g, ""))) {
-    errors.phoneNumber = "Phone number must be exactly 9 digits long.";
+  } else if (!/^\d{10}$/.test(phoneNumber.replace(/\D/g, ""))) {
+    errors.phoneNumber = "Phone number must be exactly 10 digits long.";
   }
 
   if (!address.trim()) {
     errors.address = "Address is required.";
+  }
+
+  if (!reason.trim()) {
+    errors.reason = "Reason for contact is required.";
   }
 
   return errors;
