@@ -155,7 +155,7 @@
 
   // Validate and submit form
   function formCheck() {
-    formErrors = validateForm(name, email, phoneNumber, address);
+    formErrors = validateForm(name, email, phoneNumber, address, '', true);
     if (Object.keys(formErrors).length === 0) {
       console.log({
         name,

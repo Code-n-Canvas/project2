@@ -19,18 +19,26 @@
   let errors = writable<ErrorType>({});
 
   function submitForm() {
-    const validationErrors = validateForm(name, email, phoneNumber, address,);
+    const validationErrors = validateForm(name, email, phoneNumber, address, reason);
     if (Object.keys(validationErrors).length === 0) {
-      console.log({
+      console.log("Form submitted successfully with the following data:", {
         name,
         email,
         phoneNumber,
         address,
-        reason
+        reason,
+        additionalInfo
       });
-      // Handle form submission
+      // Reset form fields after successful submission
+      name = "";
+      email = "";
+      phoneNumber = "";
+      address = "";
+      reason = "";
+      additionalInfo = "";
     } else {
       errors.set(validationErrors);
+      console.log("Form validation failed:", validationErrors);
     }
   }
 </script>
@@ -117,8 +125,12 @@
             type="text"
             id="reason"
             bind:value={reason}
+            required
             class="w-full p-2 border rounded text-black"
           />
+          {#if $errors.reason}
+            <p class="text-red-600">{$errors.reason}</p>
+          {/if}
         </div>
         <div class="mb-4">
           <label for="additionalInfo" class="font-macondo text-black"
