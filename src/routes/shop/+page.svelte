@@ -5,7 +5,6 @@
   import type { ValidationErrors } from "../../lib/formValidator";
   import { validateForm } from "../../lib/formValidator";
 
-  // Initialize variables
   let locomotiveScroll: any;
   let name = "";
   let email = "";
@@ -20,17 +19,17 @@
   let totalPrice = 0;
   let checkedOutProduct: Product | null = null;
 
-  // Sample products data
+  // SAMPLE PRODUCTS
   let products = [
     {
       id: 1,
       name: " Coffee Lover Sticker",
-      price: 10,
+      price: 20,
       image: "images/p1.png",
       description:
         "Gokoru Series - Coffee Lover Sticker starring Gokoru (Gordon College Girl)",
       brand: "Gokoru Series",
-      size: "11×8×17.5cm",
+      size: "2x2in",
       material: "Vinyl",
       category: "Stickers",
     },
@@ -42,98 +41,98 @@
       description:
         "Gokoru Series - Crying, Pity, Cute Sticker starring Gokoru (Gordon College Girl)",
       brand: "Gokoru Series",
-      size: "12×9×18cm",
+      size: "2x2in",
       material: "Vinyl",
       category: "Stickers",
     },
     {
       id: 3,
       name: "Programmer Sticker",
-      price: 30,
+      price: 20,
       image: "images/p3.png",
       description:
         "Gokoru Series - Funny Programming Meme Sticker starring Gokare (Gordon College Boy)",
       brand: "Gokoru Series",
-      size: "12×9×18cm",
+      size: "2x2in",
       material: "Vinyl",
-      category: "Keychains",
+      category: "Stickers",
     },
     {
       id: 4,
-      name: "Mystic Mug",
-      price: 15,
-      image: "images/p4.jpg",
-      description: "A mug with mystical powers.",
-      brand: "Magic Co.",
-      size: "8×8×10cm",
-      material: "Ceramic",
-      category: "Mugs",
-    },
-    {
-      id: 5,
-      name: "Enchanted Bookmark",
-      price: 5,
-      image: "images/p5.jpg",
-      description: "Keep your place in style.",
-      brand: "Bookish",
-      size: "5×15cm",
-      material: "Paper",
+      name: "Gokoru Bookmark",
+      price: 35,
+      image: "images/bm1.png",
+      description: "Cute Witty Bookmark starring Gokoru (Gordon College Girl)",
+      brand: "Gokoru Series",
+      size: "2x8in",
+      material: "Paper (Laminated)",
       category: "Bookmarks",
     },
     {
+      id: 5,
+      name: "CAHS Tears Sticker",
+      price: 15,
+      image: "images/p4.png",
+      description: "Funny Witty CAHS-themed Sticker.",
+      brand: "Denzetsu",
+      size: "2x2in",
+      material: "Vinyl",
+      category: "Stickers",
+    },
+    {
       id: 6,
-      name: "Galactic Keychain",
+      name: "CAHS Stethoscope Sticker",
       price: 8,
-      image: "images/p6.jpg",
-      description: "Carry the galaxy with you.",
-      brand: "Starry",
-      size: "3×3cm",
-      material: "Metal",
-      category: "Keychains",
+      image: "images/p5.png",
+      description: "Cute Casual CAHS-themed Sticker.",
+      brand: "Denzetsu",
+      size: "2x2in",
+      material: "Vinyl",
+      category: "Stickers",
     },
-    {
-      id: 7,
-      name: "Cosmic Notebook",
-      price: 12,
-      image: "images/p7.jpg",
-      description: "A notebook with cosmic designs.",
-      brand: "Galactic Goods",
-      size: "15×21cm",
-      material: "Paper",
-      category: "Notebooks",
-    },
-    {
-      id: 8,
-      name: "Starry Night Lamp",
-      price: 25,
-      image: "images/p8.jpg",
-      description: "Illuminate your room with stars.",
-      brand: "Luminous",
-      size: "10×10×20cm",
-      material: "Plastic",
-      category: "Lamps",
-    },
-    {
-      id: 9,
-      name: "Aurora Poster",
-      price: 18,
-      image: "images/p9.jpg",
-      description: "A beautiful poster of the aurora.",
-      brand: "Artistic Prints",
-      size: "50×70cm",
-      material: "Paper",
-      category: "Posters",
-    },
+    // {
+    //   id: 7,
+    //   name: "Cosmic Notebook",
+    //   price: 12,
+    //   image: "images/p7.jpg",
+    //   description: "A notebook with cosmic designs.",
+    //   brand: "Galactic Goods",
+    //   size: "15×21cm",
+    //   material: "Paper",
+    //   category: "Notebooks",
+    // },
+    // {
+    //   id: 8,
+    //   name: "Starry Night Lamp",
+    //   price: 25,
+    //   image: "images/p8.jpg",
+    //   description: "Illuminate your room with stars.",
+    //   brand: "Luminous",
+    //   size: "10×10×20cm",
+    //   material: "Plastic",
+    //   category: "Lamps",
+    // },
+    // {
+    //   id: 9,
+    //   name: "Aurora Poster",
+    //   price: 18,
+    //   image: "images/p9.jpg",
+    //   description: "A beautiful poster of the aurora.",
+    //   brand: "Artistic Prints",
+    //   size: "50×70cm",
+    //   material: "Paper",
+    //   category: "Posters",
+    // },
   ];
 
-  // Initialize LocomotiveScroll on mount
+  // INITIALIZE LOCOMOTIVE SCROLL
   onMount(() => {
     locomotiveScroll = new LocomotiveScroll({
       el: document.querySelector("[data-scroll-container]") as HTMLElement,
       smooth: true,
     });
 
-    filteredProducts = products; // Show all products initially
+    filteredProducts = products;
 
     return () => {
       if (locomotiveScroll) {
@@ -155,7 +154,7 @@
 
   // Validate and submit form
   function formCheck() {
-    formErrors = validateForm(name, email, phoneNumber, address, '', true);
+    formErrors = validateForm(name, email, phoneNumber, address, "", true);
     if (Object.keys(formErrors).length === 0) {
       console.log({
         name,
@@ -299,12 +298,12 @@
 
             <!-- LEFT SIDE: IMAGE -->
             <div
-              class="col-span-1 max-sm:col-span-2 w-full bg-accent overflow-hidden"
+              class="col-span-1 max-sm:col-span-2 w-full bg-accent overflow-hidden flex justify-center items-center"
             >
               <img
                 src={selectedProduct.image}
                 alt={selectedProduct.name}
-                class="w-full object-cover rounded-lg"
+                class="max-h-[50vh] max-w-full object-contain"
               />
             </div>
 
