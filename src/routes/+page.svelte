@@ -72,8 +72,8 @@
     position: absolute;
     bottom: -18rem;
     right: -18rem;
-    width: 1000px;
-    height: 700px;
+    width: 130vh;
+    height: 130vh;
     background-color: #fff8a7; /* bg-primary color */
     border-radius: 250px;
     transform: rotate(70deg);
