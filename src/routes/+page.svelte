@@ -38,7 +38,7 @@
 
   <!-- DIV FOR CALL TO ACTION BUTTONS -->
   <div
-    class="ml-20 mt-20 max-sm:ml-0 max-sm:mt-10 flex gap-5 max-sm:justify-center"
+    class="ml-20 z-10 mt-20 max-sm:ml-0 max-sm:mt-10 flex gap-5 max-sm:justify-center"
   >
     <a
       href="/project2/shop"

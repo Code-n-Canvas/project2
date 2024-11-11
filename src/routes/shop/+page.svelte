@@ -268,11 +268,13 @@
   </aside>
 
   <!-- CONTENT -->
-  <div class="flex flex-1 justify-center py-16 px-12 max-sm:p-5">
+  <div class="flex flex-1 justify-center py-16 px-12 max-sm:p-5 max-md:p-5">
     <!--  ITEMS -->
     <section class="overflow-x-auto">
       <!-- INDIVIDUAL ITEM ITERATION -->
-      <div class="flex flex-wrap justify-evenly gap-4">
+      <div
+        class="flex flex-wrap justify-evenly gap-4 max-sm:gap-2 max-md:gap-2"
+      >
         {#each filteredProducts as product}
           <ProductCard {product} {openModal} />
         {/each}
