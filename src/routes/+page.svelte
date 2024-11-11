@@ -23,7 +23,9 @@
   class="flex flex-col pt-20 px-24 max-sm:px-5 h-screen overflow-hidden relative"
 >
   <!-- DIV FOR HEADER TEXTS -->
-  <div class="w-[40%] max-sm:w-[100%] max-sm:text-center">
+  <div
+    class="w-[50%] max-sm:w-[100%] max-md:w-[100%] max-sm:text-center max-md:text-center"
+  >
     <h1 class="text-5xl font-bold mb-4">
       Witty Stickers, Charming Bookmarks, and More!
     </h1>
@@ -54,7 +56,7 @@
   </div>
 
   <!-- DIV FOR MASCOT -->
-  <div class="max-sm:hidden absolute -right-20 -top-8 w-[55%]">
+  <div class="max-sm:hidden max-md:hidden absolute -right-20 -mt-28 w-[55%]">
     <img src="assets/mascot.png" alt="" />
   </div>
 
