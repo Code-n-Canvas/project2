@@ -56,7 +56,9 @@
   </div>
 
   <!-- DIV FOR MASCOT -->
-  <div class="max-sm:hidden max-md:hidden absolute -right-20 -mt-28 w-[55%]">
+  <div
+    class="max-sm:hidden max-md:hidden absolute -right-20 top-1/2 transform -translate-y-1/2 w-[55%]"
+  >
     <img src="assets/mascot.png" alt="" />
   </div>
 
