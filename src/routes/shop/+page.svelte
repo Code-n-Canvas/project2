@@ -285,7 +285,7 @@
         >
           <!-- MODAL CONTENT -->
           <div
-            class="bg-white rounded-lg shadow-lg w-full relative max-h-[80%] max-w-[70%] grid grid-cols-2 max-md:overflow-hidden max-sm:overflow-auto"
+            class="bg-white rounded-lg shadow-lg w-full relative max-h-[80%] max-w-[70%] max-sm:max-w-[90%] grid grid-cols-2 max-md:overflow-hidden max-sm:overflow-auto"
           >
             <!-- CLOSE BUTTON -->
             <button
