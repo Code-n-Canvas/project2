@@ -11,8 +11,12 @@
   class="p-4 sm:p-6 md:p-4 flex flex-col gap-4 rounded-lg border border-transparent hover:border-blue-700 cursor-pointer duration-200"
 >
   <!-- Icon Section -->
-  <div class="bg-accent h-[40vh] px-4 duration-200">
-    <img src={product.image} alt={product.name} class="w-[200px] h-[200px]" />
+  <div class="bg-accent h-[40vh] w-[35vh] px-4 duration-200">
+    <img
+      src={product.image}
+      alt={product.name}
+      class="w-full h-full object-contain"
+    />
   </div>
 
   <!-- PRODUCT DETAILS-->
